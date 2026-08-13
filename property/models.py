@@ -13,10 +13,15 @@ class Flat(models.Model):
         'Когда создано объявление',
         default=timezone.now,
         db_index=True)
-    new_building = models.BooleanField('Новостройка', default=None, null=True, blank=True)
+    new_building = models.BooleanField('Новостройка',
+                                       default=None,
+                                       null=True,
+                                       blank=True)
 
-    description = models.TextField('Текст объявления', blank=True)
-    price = models.IntegerField('Цена квартиры', db_index=True)
+    description = models.TextField('Текст объявления',
+                                   blank=True)
+    price = models.IntegerField('Цена квартиры',
+                                db_index=True)
 
     town = models.CharField(
         'Город, где находится квартира',
@@ -44,8 +49,12 @@ class Flat(models.Model):
         blank=True,
         db_index=True)
 
-    has_balcony = models.BooleanField('Наличие балкона', null=True, blank=True, db_index=True)
-    active = models.BooleanField('Активно-ли объявление', db_index=True)
+    has_balcony = models.BooleanField('Наличие балкона',
+                                      null=True,
+                                      blank=True,
+                                      db_index=True)
+    active = models.BooleanField('Активно-ли объявление',
+                                 db_index=True)
     construction_year = models.IntegerField(
         'Год постройки здания',
         null=True,
@@ -54,6 +63,7 @@ class Flat(models.Model):
 
     def __str__(self):
         return f'{self.town}, {self.address} ({self.price}р.)'
+
 
 class Complaint(models.Model):
     user = models.ForeignKey(User,
@@ -64,18 +74,22 @@ class Complaint(models.Model):
                              verbose_name="Квартира с жалобой")
     text = models.TextField('Тест жалобы')
 
-
     def __str__(self):
         return f'Жалоба от {self.user} на квартиру {self.flat}'
+
 
 class Owner(models.Model):
     flats = models.ManyToManyField(Flat,
                                    related_name='owners',
                                    verbose_name='Квартиры собственника',
                                    blank=True)
-    name = models.CharField('ФИО владельца', max_length=200, db_index=True)
-    phone_number = models.CharField('Номер владельца', max_length=20)
-    pure_phone = PhoneNumberField('Скорректированный номер владельца', blank=True)
+    name = models.CharField('ФИО владельца',
+                            max_length=200,
+                            db_index=True)
+    phone_number = models.CharField('Номер владельца',
+                                    max_length=20)
+    pure_phone = PhoneNumberField('Скорректированный номер владельца',
+                                  blank=True)
 
     def __str__(self):
         return self.name
