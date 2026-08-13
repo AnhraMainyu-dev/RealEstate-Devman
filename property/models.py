@@ -6,6 +6,10 @@ from django.contrib.auth.models import User
 class Flat(models.Model):
     owner = models.CharField('ФИО владельца', max_length=200)
     owners_phonenumber = models.CharField('Номер владельца', max_length=20)
+    liked_by = models.ManyToManyField(User,
+                                      related_name='liked_flats',
+                                      verbose_name='Кто лайкнул:',
+                                      blank=True)
     created_at = models.DateTimeField(
         'Когда создано объявление',
         default=timezone.now,
@@ -60,6 +64,7 @@ class Complaint(models.Model):
                              on_delete=models.CASCADE,
                              verbose_name="Квартира с жалобой")
     text = models.TextField('Тест жалобы')
+
 
     def __str__(self):
         return f'Жалоба от {self.user} на квартиру {self.flat}'
