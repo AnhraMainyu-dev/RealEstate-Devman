@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-
+    "phonenumber_field",
     'property.apps.PropertyConfig',
 ]
 
@@ -102,3 +102,5 @@ DATABASES = {
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+PHONENUMBER_DEFAULT_REGION = 'RU'
