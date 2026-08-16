@@ -5,8 +5,11 @@ import phonenumbers
 
 def remake_phone_numbers(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    for flat in Flat.objects.all():
-        phone_number = phonenumbers.parse(flat.owners_phonenumber, 'RU')
+    for flat in Flat.objects.iterator():
+        try:
+            phone_number = phonenumbers.parse(flat.owners_phonenumber, 'RU')
+        except phonenumbers.NumberParseException:
+            continue
         if not phonenumbers.is_valid_number(phone_number):
             continue
         flat.owner_pure_phone = phonenumbers.format_number(
@@ -15,9 +18,7 @@ def remake_phone_numbers(apps, schema_editor):
 
 def move_backward(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    for flat in Flat.objects.all():
-        flat.owner_pure_phone = ''
-        flat.save()
+    Flat.objects.update(owner_pure_phone='')
 
 
 class Migration(migrations.Migration):

@@ -16,7 +16,8 @@ class Flat(models.Model):
     new_building = models.BooleanField('Новостройка',
                                        default=None,
                                        null=True,
-                                       blank=True)
+                                       blank=True,
+                                       db_index=True)
 
     description = models.TextField('Текст объявления',
                                    blank=True)
@@ -68,11 +69,13 @@ class Flat(models.Model):
 class Complaint(models.Model):
     user = models.ForeignKey(User,
                              on_delete=models.CASCADE,
-                             verbose_name="Пользователь, который пожаловался")
+                             verbose_name="Пользователь, который пожаловался",
+                             related_name='complaints')
     flat = models.ForeignKey(Flat,
                              on_delete=models.CASCADE,
-                             verbose_name="Квартира с жалобой")
-    text = models.TextField('Тест жалобы')
+                             verbose_name="Квартира с жалобой",
+                             related_name='complaints')
+    text = models.TextField('Текст жалобы')
 
     def __str__(self):
         return f'Жалоба от {self.user} на квартиру {self.flat}'
